@@ -27,11 +27,11 @@ class Keje(object):
 					self.router(new_request, client_sock)
 				break
 
-	def read_assets(self,request, client_sock): # read js or css file and response
+	def read_assets(self,request, client_sock): # read js or css files
 		if( '.js' in request['url']):
 			self.response(client_sock, request['url'], is_asset=True)
 
-	def response(self, client_sock, filename='hello.html', data={}, status_code=200, is_asset=False):
+	def response(self, client_sock, filename='hello.html', data={}, status_code=200, is_asset=False): #send response with optional parameters
 		if(status_code != 404):
 			
 			if(not is_asset):
@@ -53,10 +53,23 @@ class Keje(object):
 		client_sock.close()
 
 	def read_file(self, filename, data={}):
-		with open(filename, 'r') as htmlfile:
-			file = htmlfile.read()
-		file = self.paste_template(file, data)
-		return file
+		with open(filename, 'r') as read_file:
+			file_contains = read_file.read()
+		if('.html' in filename):
+			file_contains = self.paste_template(file_contains, data)
+		return file_contains
+
+	'''def check_url_isequal(request_url, url):
+		new_url = ''
+		variables = []
+		for path in (url.split('/')): # split url by '/'
+			if(':int' in path): # :: => check for string
+				path = '\w+'
+				paths[] = 
+			new_url += '/' + path
+		if( re.match(new_url, request_url) ):
+	'''
+
 
 	def paste_template(self, file, data):
 		regex = re.compile('#{\w+}')
