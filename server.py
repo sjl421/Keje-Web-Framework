@@ -18,7 +18,6 @@ class Server(object):
 		print('Server created and listening on port {port}'.format(port=self.port))
 		while True:
 			client_sock, client_address = self.sock.accept()
-			print("A client connect to server {host}:{port}!\n".format(host=client_address[0], port=client_address[1]))
 			th = Thread(target=self.handle_client, args=(client_sock,))
 			th.daemon = True
 			th.start()
