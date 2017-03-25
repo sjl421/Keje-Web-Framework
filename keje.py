@@ -1,4 +1,6 @@
 from server import Server
+from jinja2 import Template
+from request_handler import HTTPRequest
 import types
 import re
 
@@ -8,40 +10,42 @@ class Keje(object):
 		self.server = Server(host, port)
 		self.router = router
 		self.views_folder = 'views'
+		self.content_type = "text/html"
 
 	def start(self):
 		self.server.start()
 		self.server.handler = self.request_handler
 
 	def request_handler(self, client_sock, request):
-		for line in request.strip().splitlines():
-			if 'HTTP/1.1' in line:
-				r = line.split(" ")
-				new_request={}
-				new_request['method'] = r[0]
-				new_request['url'] = r[1]
-				new_request['http'] = r[2]
-				if( '.js' in r[1] or '.css' in r[1]):
-					self.read_assets(new_request, client_sock)
-				elif(new_request['method'] == 'GET'):
-					self.router(new_request, client_sock)
-				break
+		parsed_request = self.parse_request(request)
+		if('.js' in parsed_request.path or '.css' in parsed_request.path ):
+			self.read_assets(parsed_request, client_sock)
+		else:
+			self.router(parsed_request, client_sock)
+	
+	def parse_request(self, request):
+		parsed_request = HTTPRequest(request)
+		return parsed_request
 
 	def read_assets(self,request, client_sock): # read js or css files
-		if( '.js' in request['url']):
-			self.response(client_sock, request['url'], is_asset=True)
+		if( '.js' in request.path or '.css' in request.path):
+			self.response(client_sock, request.path, is_asset=True)
 
 	def response(self, client_sock, filename='hello.html', data={}, status_code=200, is_asset=False): #send response with optional parameters
 		if(status_code != 404):
-			
 			if(not is_asset):
 				filename = self.views_folder + '/' + filename + '.html'
+				self.content_type = "text/html"
 			else:
 				filename = '.' + filename
+				if('.js' in filename):
+					self.content_type = 'text/javascript'
+				elif('.css' in filename):
+					self.content_type = 'text/css'
 			
 			client_sock.send('HTTP/1.1 {status_code} OK\r\n'.format(status_code=status_code))
 			client_sock.send("server: gws\r\n")
-			client_sock.send("content-type: text/html; charset=UTF-8\r\n\r\n")
+			client_sock.send("content-type: {ct}; charset=UTF-8\r\n\r\n".format(ct=self.content_type))
 			client_sock.send( self.read_file(filename, data) )
 
 		else:
@@ -59,27 +63,6 @@ class Keje(object):
 			file_contains = self.paste_template(file_contains, data)
 		return file_contains
 
-	'''def check_url_isequal(request_url, url):
-		new_url = ''
-		variables = []
-		for path in (url.split('/')): # split url by '/'
-			if(':int' in path): # :: => check for string
-				path = '\w+'
-				paths[] = 
-			new_url += '/' + path
-		if( re.match(new_url, request_url) ):
-	'''
-
-
 	def paste_template(self, file, data):
-		regex = re.compile('#{\w+}')
-		matchs = regex.findall(file)
-		if(len(matchs) != 0):
-			for m in matchs:
-				template = m
-				m = m.replace("#", '')
-				m = m.replace("{", '')
-				m = m.replace("}", '')
-				if(m in data):
-					file = file.replace(template, str(data[m]))
-		return file
+		template = Template(file)
+		return template.render(data)

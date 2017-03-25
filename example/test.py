@@ -1,13 +1,13 @@
-from keje_framework import Keje
+from Keje import app
 from router import Router
 import signal
 import sys
 
-kf = Keje()
-router = Router(kf)
+app = app()
+router = Router(app)
 
-kf.router = router.router
-kf.start()
+app.router = router.router
+app.start()
 
 def signal_handler(signal, frame):
 	print("Server closing...")
