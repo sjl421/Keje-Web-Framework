@@ -1,0 +1,35 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+Keje	../keje_framework.py	/^class Keje(object):$/;"	kind:class	line:5
+Router	../router.py	/^class Router:$/;"	kind:class	line:2
+Server	../server.py	/^class Server(object):$/;"	kind:class	line:4
+__init__	../keje_framework.py	/^	def __init__(self,host='', port=3000, router=None):$/;"	kind:member	line:7
+__init__	../router.py	/^	def __init__(self, keje_framework):$/;"	kind:member	line:3
+__init__	../server.py	/^	def __init__(self, host='', port=3000, handler=None):$/;"	kind:member	line:6
+_start	../server.py	/^	def _start(self):$/;"	kind:member	line:30
+create_socket	../server.py	/^	def create_socket(self):$/;"	kind:member	line:11
+handle_client	../server.py	/^	def handle_client(self, client_sock):$/;"	kind:member	line:26
+index	../router.py	/^	def index(self):$/;"	kind:member	line:21
+keje_framework.py	../keje_framework.py	1;"	kind:file	line:1
+kf	../test.py	/^kf = Keje()$/;"	kind:variable	line:6
+listen_socket	../server.py	/^	def listen_socket(self):$/;"	kind:member	line:15
+not_found	../router.py	/^	def not_found(self):$/;"	kind:member	line:32
+paste_template	../keje_framework.py	/^	def paste_template(self, file, data):$/;"	kind:member	line:74
+read_assets	../keje_framework.py	/^	def read_assets(self,request, client_sock): # read js or css files$/;"	kind:member	line:30
+read_file	../keje_framework.py	/^	def read_file(self, filename, data={}):$/;"	kind:member	line:55
+request_handler	../keje_framework.py	/^	def request_handler(self, client_sock, request):$/;"	kind:member	line:16
+response	../keje_framework.py	/^	def response(self, client_sock, filename='hello.html', data={}, status_code=200, is_asset=False): #send response with optional parameters$/;"	kind:member	line:34
+router	../router.py	/^	def router(self, request, client_sock):$/;"	kind:member	line:6
+router	../test.py	/^router = Router(kf)$/;"	kind:variable	line:7
+router.py	../router.py	1;"	kind:file	line:1
+server.py	../server.py	1;"	kind:file	line:1
+signal_handler	../test.py	/^def signal_handler(signal, frame):$/;"	kind:function	line:12
+start	../keje_framework.py	/^	def start(self):$/;"	kind:member	line:12
+start	../server.py	/^	def start(self):$/;"	kind:member	line:34
+test.py	../test.py	1;"	kind:file	line:1
+user	../router.py	/^	def user(self, id):$/;"	kind:member	line:28
+users	../router.py	/^	def users(self):$/;"	kind:member	line:25
